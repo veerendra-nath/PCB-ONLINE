@@ -1,0 +1,26 @@
+{% extends '../dashboard.html' %}
+{% block content %}
+{% load static %}
+<div class="main-content">    
+
+    <div class="header bg-gradient-cus pb-2 pt-2 pt-md-2 "  >
+        <div class="container-fluid nav-wrapper">
+            <nav class="container-fluid" id="account_nav">
+                <a class="btn sbutton btn-default mx-auto mt-1" href="/dashboard/account/addresses" style="text-decoration:none;color:white">Addresses</a>
+                <a class="btn sbutton btn-info mx-auto mt-1" href="/dashboard/account/profile" style="text-decoration: none;color:white">Profile</a>
+                <a class="btn sbutton btn-danger mx-auto mt-1" href="/dashboard/account/password" style="text-decoration: none;color:white">Password</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container mt--2 " >
+        
+        <div class="row " style="box-shadow: 5px 10px 10px gray;">             
+                {% block account_content %}
+                  
+                {% endblock account_content %}
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

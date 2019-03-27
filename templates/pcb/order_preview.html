@@ -1,0 +1,114 @@
+{% extends './base_block.html' %}
+{% block content %}
+    <div class=" container-fluid bg-light ">
+        <form method="get"  class="my-auto" >
+             <div class="row ">
+                <div class="col-lg-8 col-md-7 col-sm-12 mx-auto float-left pb-2 pt-2 rounded bg-gradient-green border">
+                    <div class="container px-2 py-3">
+                        <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5">PCB Material : </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.material }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5">PCB CU Layers : </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.layers }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 " >
+                                <p class="font-weight-normal h5">PCB Dimessions : </p>
+                            </div>
+                            <div class="col-lg-3 " >
+
+                                <p class="font-weight-normal h5">Length:{{ selected_properties.length }}<span><small>mm</small></span></p>
+                                <p class="font-weight-normal  h5">Width:{{ selected_properties.width }}<span><small>mm</small></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5">PCB Thickness : </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.thickness }}<span><small>mm</small></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5"> CU Layer Thickness : </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.cu_thickness }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 " >
+                                <p class="font-weight-normal h5"> PCB Surface Finish : </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.surface_finish }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 " >
+                                <p class="font-weight-normal h5"> PCB Solder Resist Color: </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal  h5">Top: {{ selected_properties.color_top }}</p>
+                                <p class="font-weight-normal  h5">Bottom: {{ selected_properties.color_bottom }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 " >
+                                <p class="font-weight-normal h5"> PCB slick screen Color: </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal  h5">Top: {{ selected_properties.ss_color_top }}</p>
+                                <p class="font-weight-normal  h5">Bottom: {{ selected_properties.ss_color_bottom }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                 <div class="col-lg-4  col-md-5 col-sm-12 mx-auto pb-2 pt-2 bg-gradient-pink border">
+                     <div class="container px-2 py-3">
+                         <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5">Quantity: </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.quantity }}</p>
+                            </div>
+                         </div>
+                         <div class="row">
+                            <div class="col-lg-4  " >
+                                <p class="font-weight-normal h5">Remarks: </p>
+                            </div>
+                            <div class="col-lg-3  " >
+                                <p class="font-weight-normal float-left h5">{{ selected_properties.remarks }}</p>
+                            </div>
+                         </div>
+                         <div class="row">
+                            <div class="col-lg-4  " >
+                                <div class="btn btn-block btn-default">
+                                    <a href="{{ payment_url }}">pay</a>
+                                </div>
+
+                            </div>
+
+                         </div>
+
+                     </div>
+                 </div>
+             </div>
+        </form>
+    </div>
+{% endblock content %}

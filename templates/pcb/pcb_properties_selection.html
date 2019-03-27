@@ -1,0 +1,223 @@
+{% extends './base_block.html' %}
+{% block content %}
+<div class=" container-fluid bg-light ">
+  <form method="POST"  class="my-auto" >
+  <div class="row ">
+    <div class="col-lg-8 col-md-7 col-sm-12 mx-auto float-left pb-2 pt-2 rounded bg-gradient-green border">
+      <div class="container px-2 py-3">
+
+          {% csrf_token %}
+
+          <div class="form-row form-group   form-inline ">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label for="pcbMaterials" class="float-left text-darker">PCB MATERIAL: </label>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 "  id="pcbMaterials" data-toggle="buttons">
+              {% for material in available_properties.materials %}
+              <div class="  btn btn-light btn-sm mt-1 mx-auto ">
+                  <input type="radio" style="position: absolute;opacity: 0;" class="ml-0" name="material" required id="option1" {% if not material.is_available %}  disabled {% endif %}   autocomplete="off" value="{{ material.value }}"> <lable >{{material.value}}</lable>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="form-group form-inline form-row">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label for="layers_select" class="float-left text-darker">PCB Copper Layers:</label>
+            </div>
+            <div class="col-lg-9 col-md-12 input-group-sm col-sm-12 mx-auto">
+              <select class="form-control float-left " name="cu_layers" required id="layers_select">
+                {% for layer in available_properties.layers %}
+                <option value='{{ layer.value }}' {% if not layer.is_available %}  disabled {% endif %}> {% if layer.value == 1 %} Single Side {% elif layer.value == 2 %} Double Side {% else %} {{ layer.value }} {% endif %} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group form-inline form-row">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label class="float-left">PCB Dimmessions: </label>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 ">
+              <div class="row ">
+                <div class="input-group-sm input-group col-lg-3  col-md-6 col-sm-12 mb-1 mb-md-0 mb-sm-0 ">
+                  <input class="form-control" name="x" required placeholder="in mm">
+                  <div class="input-group-append">
+                      <label class="input-group-text" for="inputGroupSelect01">Length(X)</label>
+                  </div>
+                </div>
+                <div class="input-group-sm input-group col-lg-3  col-md-6 col-sm-12  mx-auto">
+                  <input class="form-control"  name="y" required placeholder="in mm">
+                  <div class="input-group-append">
+                    <label class="input-group-text" for="inputGroupSelect01">Width(Y)</label>
+                  </div>
+                </div>
+                <div class="input-group-sm input-group col-lg-6  col-md-6 col-sm-12  mx-auto">
+                  in mm
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group form-inline form-row">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label class="float-left text-darker" for="pcbMaterials">PCB Thickness: </label>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12" data-toggle="buttons">
+              {% for thickness in available_properties.thicknesses %}
+              <div class="  btn btn-light btn-sm mt-1 mx-auto {% if not thickness.is_available %}  disabled {% endif %} ">
+                  <input type="radio" style="position: absolute;opacity: 0;" {% if not thickness.is_available %}  disabled {% endif %} class="" name="thickness" required id="option1" autocomplete="off" value="{{ thickness.value }}"> <lable>{{ thickness.value }}</lable>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="form-row form-group  form-inline ">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label for="pcbMaterials" class="float-left text-darker">Copper Thickness: </label>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 " data-toggle="buttons">
+              {% for cu_thickness in available_properties.cu_thicknesses %}
+              <div class=" btn btn-light btn-sm {% if not cu_thickness.is_available %} disabled {% endif %}  mt-1 mx-auto">
+                  <input type="radio" style="position: absolute;opacity: 0;" {% if not cu_thickness.is_available %} disabled {% endif %} class="ml-0" value="{{ cu_thickness.value }}" name="cu_thickness" required id="option1" autocomplete="off" > <lable >{{ cu_thickness.value }}</lable>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="form-group form-inline form-row">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label class="float-left text-darker" for="pcbMaterials">Surface Finish: </label>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12  " data-toggle="buttons">
+                {% for surface_finish in available_properties.surface_finishes %}
+                <div class="  btn btn-light btn-sm  mt-2 {% if not surface_finish.is_available %} disabled {% endif %}  mx-auto">
+                    <input type="radio" style="position: absolute;opacity: 0;" required {% if not surface_finish.is_available %} disabled {% endif %} class="ml-0" name="surface_finish" id="option1" autocomplete="off"  value="{{ surface_finish.value }}"> <lable >{{ surface_finish.value }}</lable>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="form-group form-inline form-row">
+            <div class="col-lg-3 col-md-12 col-sm-12">
+              <label class="float-left"> PCB Quantity</label>
+            </div>
+            <div class="col-lg-9 col-md-12 input-group-sm   col-sm-12">
+              <input type="number" name="quantity" required class="form-control ">
+            </div>
+          </div>
+          <div class="form-group form-inline form-row">
+              <div class="col-lg-3 col-md-12 col-sm-12 ">
+                <label for="sel1" class="float-left text-darker">PCB Finish Color:</label>
+              </div>
+              <div class="col-lg-9 col-md-12 col-sm-12 ">
+                <div class="row ">
+                  <div class="input-group input-group-sm col-lg-6 col-md-6 col-sm-12 mx-auto mt-1 mt-sm-0 ">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="pcbColorTop">Front</label>
+                    </div>
+                    <select class="form-control" name="top_color" required id="pcbColorTop">
+                        {% for color in available_properties.colors %}
+                        <option {% if not color.is_available %} disabled {% endif %}  value="{{ color.value }}"  >{{ color.value }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="input-group input-group-sm col-lg-6 col-md-6 col-sm-12 mx-auto mt-1 mt-sm-0  ">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="pcbColorBottom">Back</label>
+                    </div>
+                    <select class="form-control" name="bottom_color" required id="pcbColorTop">
+                        {% for color in available_properties.colors %}
+                        <option {% if not color.is_available %} disabled {% endif %}   value="{{ color.value }}">{{ color.value }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group form-inline form-row mt-lg--2">
+              <div class="col-lg-3 col-md-12 col-sm-12">
+                <label for="sel1" class="float-left text-darker">PCB Slick Screen Color:</label>
+              </div>
+              <div class="col-lg-9 col-md-12 col-sm-12 ">
+                <div class="row ">
+                  <div class="input-group input-group-sm col-lg-6 col-md-6 col-sm-12 mx-auto mt-1 mt-sm-0">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="pcbSSColorTop">Front</label>
+                    </div>
+                    <select class="form-control" name="ss_top_color" required id="pcbSSColorTop">
+                        {% for ss_color in available_properties.ss_colors %}
+                        <option {% if not ss_color.is_available %} disabled {% endif %}  value="{{ ss_color.value }}"> {{ ss_color.value }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="input-group input-group-sm col-lg-6 col-md-6 col-sm-12 mx-auto mt-1 mt-sm-0">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="pcbSSColorBottom">Back</label>
+                    </div>
+                    <select class="form-control" name="ss_bottom_color" required id="pcbSSColorBottom">
+                        {% for ss_color in available_properties.ss_colors %}
+                        <option {% if not ss_color.is_available %} disabled {% endif %} value="{{ ss_color.value }}"> {{ ss_color.value }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                </div>
+              </div>
+
+
+      </div>
+    </div>
+    <div class="col-lg-4 col-sm-12 col-md-5 pb-2 pt-0 bg-gradient-pink border ">
+      <div class="container px-1 py-2">
+          <div class="form-group form-inline form-row ">
+
+              <div class="col-lg-3">
+                <label class="float-left text-darker" for="">Remarks:</label>
+              </div>
+              <div class="col-lg-9">
+              <textarea name="remarks" class="form-control"></textarea>
+              </div>
+          </div>
+          <div class="form-row form-group  form-inline ">
+              <div class="col-lg-3 col-md-12 col-sm-12">
+                <label for="pcbMaterials" class="float-left text-darker">Order Type </label>
+              </div>
+              <div class="col-lg-9 col-md-12 col-sm-12 " data-toggle="buttons">
+                <div class=" btn btn-light btn-sm  mt-1 mx-auto">
+                    <input type="radio" style="position: absolute;opacity: 0;" class="ml-0" name="order_type" value="express" name="cu_thickness" id="option1" autocomplete="off" > <lable >Express</lable>
+                </div>
+                <div class="  btn btn-light btn-sm mt-1 mx-auto">
+                    <input type="radio" style="position: absolute;opacity: 0;" class="ml-0" name="order_type" value="speed" name="cu_thickness" id="option1" autocomplete="off" > <lable>Speed</lable>
+                </div>
+                <div class="  btn btn-light btn-sm mt-1 mx-auto">
+                    <input type="radio" style="position: absolute;opacity: 0;" class="ml-0" name="order_type" value="normal" name="cu_thickness" id="option1" autocomplete="off" > <lable>Normal</lable>
+                </div>
+              </div>
+            </div>
+
+        <div class="form-group form-inline form-row justify-content-center">
+          <h5 class="text-darker text-underline">Price </h5>
+        </div>
+        <ul>
+            <li>Price per Piece:</li>
+            <li>Price per 100 Piece:</li>
+            <li>Discount Ammount</li>
+            <li>Net amoount</li>
+            <li>GST 18%:</li>
+            <li>Total Price:</li>
+
+        </ul>
+
+        <div class="form-group form-inline form-row">
+
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <button type="submit" class="form-control btn btn-warning">save to Draft</button>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+              <button type="submit" class="form-control btn btn-success">Procced</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+{% endblock content %}

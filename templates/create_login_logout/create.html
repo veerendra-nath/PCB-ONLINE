@@ -1,0 +1,108 @@
+{% extends './base.html' %}
+{% block content %}
+                  
+                    <form  id="vf" class="form-signin" method="POST" action="">
+                        {% csrf_token %}
+                      <p v-if="fname_err"   class="text-danger">First name should contain minimum 3 letters </p>
+                      
+                      <div class="form-label-group">
+                              <input type="text" name="first_name" id="inputFname" class="form-control" value="{{ user.first_name }}" placeholder="First Name" required autofocus v-model="fname" >
+                              <label for="inputFname">First Name</label>
+                      </div>
+                     
+                      <div class="form-label-group">
+                            <input type="text" name="middle_name" id="inputMname" class="form-control" value="{{ user.middle_name }}" placeholder="Middle Name"  >
+                            <label for="inputMname">Middle Name</label>
+                      </div>
+                      <p v-if="lname_err"  class="text-danger">Last name should contain minimum 2 letters </p>
+                      <div class="form-label-group">
+                            <input type="text" name="last_name" id="inputLname" class="form-control" value="{{ user.last_name }}" placeholder="Last Name" required autofocus v-model="lname" >
+                            <label for="inputLname">Last Name</label>
+                      </div>
+                      
+                      <div class="form-label-group">
+                        <input type="email" name="email" id="inputEmail" class="form-control" value="{{ user.email }}" placeholder="Email address" required >
+                        <label for="inputEmail">Email address</label>
+                      </div>
+                      {% if errors.email %}
+                      <div class="alert alert-danger" role="alert" style="margin-top:4%">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Failed:</strong> Entered Email Already Registered,<a href="/account/login">login</a>
+                      </div>
+                      {% endif %}
+                      <p v-if="password_err"   class="text-danger">Password should contain minimum 6  </p>
+                      <div class="form-label-group">
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="pass">
+                        <label for="inputPassword">Password</label>
+                      </div>
+                      <p class="text-info">If Bussiness Account:</p>
+                      <div class="form-label-group">
+                        <input type="text" name="company" id="inputCompany" class="form-control" value="{{ user.company_name }}" placeholder="GST Number" >
+                        <label for="inputCompany">Comapny Name</label>
+                      </div>
+                      <div class="form-label-group">
+                        <input type="text" name="gst" id="inputGST" class="form-control" value="{{ user.gst_number }}" placeholder="GST Number" >
+                        <label for="inputGST">GST Number</label>
+                      </div>
+                      
+                      
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox" name="atc" class="custom-control-input" id="customCheck1"  >
+                        <label class="custom-control-label" for="customCheck1">Accept <a href="ll">Terms and Conditions</a></label>
+                      </div>
+                      {% if errors.atc %}
+                      <div class="alert alert-danger alert-dismissible"  role="alert" >
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <strong>Failed:</strong> Should accept terms to create account
+                      </div>
+                      {% endif %}
+                      <button class="btn btn-lg btn-create btn-block text-uppercase" type="submit" >Create Account</button>
+                      <hr class="my-4">
+                      <button class="btn btn-lg btn-primary btn-block text-uppercase" type="button" onclick="location.href='/login/';" ><i class="fab  mr-2"></i>LogIn</button>
+                     
+                    </form>
+                    <script>
+                      var f=new Vue({
+                              el: '#vf',
+                              data:{
+                                  fname:document.getElementById('inputFname').value,
+                                  pass:'',
+                                  lname:document.getElementById('inputLname').value,
+                                  fname_err:{{ errors.first_name }},
+                                  password_err:{{ errors.password }},
+                                  lname_err:{{ errors.last_name }},
+                              },
+                              watch: {
+                                  fname: function(){
+                                      if(this.fname.length<3)
+                                      {
+                                          this.fname_err=1;
+                                      }
+                                      else{
+                                          this.fname_err=0;
+                                      }
+                                  },
+                                  lname: function(){   
+                                      if(this.lname.length<2)
+                                      {
+                                          this.lname_err=1;
+                                      }
+                                      else{
+                                          this.lname_err=0;
+                                      }
+                                  },
+                                  pass: function(){
+                                      if(this.pass.length<6)
+                                      {
+                                          this.password_err=1;
+                                      }
+                                      else{
+                                          this.password_err=0;
+                                      }
+                                  }
+                              }
+                            })
+
+                    </script>
+                
+{% endblock %}

@@ -1,0 +1,63 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="{% static 'dashboard/assets/vendor/nucleo/css/nucleo.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link type="text/css" href="{% static 'dashboard/assets/css/argon.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+  <body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+<div class="bg-gradient-lighter header"  >
+  <div class="container-fluid  pt-2 pb-2">
+    <div class='row '>
+      <div class="col-lg-4 col-md-4 ">
+          <a class=" " href="./index.html" >
+            <img src="{% static 'logo.png' %}" class="img-fluid" alt="..." style="max-width: 60%;" >
+          </a>
+      </div>
+      <div class="col-lg-4 col-md-4 d-lg-inline">
+          <h3 class="text-center pt-2">PCB Manufature Order</h3> 
+      </div>
+      
+      <div class="col-lg-4 col-md-4 col-sm-4  d-lg-block">
+          <div class="dropdown float-right pt-1 ">
+              <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                Account
+              </button>
+              <div class="dropdown-menu bg-gradient-lighter mr-5" >
+                <a class="dropdown-item" href="/dashboard/account/profile">Dashboard</a>
+                <button class="dropdown-item" href="#">PCB Orders</button>
+                <a class="dropdown-item" href="#">Profile</a>
+                <a href="#" class=" dropdown-item" onclick="document.forms['logout'].submit();return false;" >
+                    <i class="ni ni-lock-circle-open text-red"></i> Log Out
+                </a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block content %}
+
+{% endblock content %}
+</body>
+<form method="POST" name="logout" action="/logout/">
+  {% csrf_token %}
+  <input type="hidden" name="logout_string" value="{{ logout_string }}">
+</form>
+</html>

@@ -1,0 +1,15 @@
+{% extends './base_block.html' %}
+{% block content %}
+<div class=" container-fluid mt-5">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3  rounded bg-light border pl-2 pr-2 pt-3 pb-2">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label>Choose you gerber Zip File</label>
+          <input type="file" name="gerber_archive"><br>
+          <button type="submit">SUBMIT</button>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

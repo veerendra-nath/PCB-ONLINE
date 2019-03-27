@@ -1,0 +1,30 @@
+{% extends './base.html' %}
+{% block content %}
+{% if failed %}
+<div class="alert alert-danger" role="alert" style="margin-top:4%">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Failed:</strong> Entered Email ID or Password is Wrong
+</div>
+{% endif %}
+<form class="form-signin" method="POST" action="">
+    {% csrf_token %}
+  <div class="form-label-group">
+    <input type="email" name="email" id="inputEmail" class="form-control" value="{{ email }}" placeholder="Email address" required autofocus>
+    <label for="inputEmail">Email address</label>
+  </div>
+  <div class="form-label-group">
+    <input type="password" name="password" id="inputPassword" class="form-control" value="" placeholder="Password" required>
+    <label for="inputPassword">Password</label>
+  </div>
+  
+  <div class="custom-control custom-checkbox mb-3">
+    <input type="checkbox" name="rme" class="custom-control-input" id="customCheck1"  >
+    <label class="custom-control-label" for="customCheck1">Remember password</label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">LogIn</button>
+  
+  <hr class="my-4">
+  <button class="btn btn-lg btn-create btn-block text-uppercase" type="button" onclick="location.href='/create/';" ><i class="fab  mr-2"></i>Create Account</button>
+ 
+</form>
+{% endblock %}

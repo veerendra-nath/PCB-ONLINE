@@ -1,0 +1,73 @@
+{% extends './account.html' %}
+{% block account_content %}
+{% load static %}
+<div class="col-lg-12  col-sm-12 mt-3 mx-auto form-group" id="dash-profile" method="POST">
+    <div class="row">
+        <div class="col-lg-12 float-left">
+            <h4 class="d-inline mt-1  ml-2 float-left ">Profile</h4>
+            <button v-if="edit_disable" v-on:click="edit_profile" type="button" class="btn d-inline btn-default float-right mx-1">Edit</button> 
+        </div>
+    </div>
+    <hr class="mt-2">
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="inputFName" class="col-lg-12 col-form-label">First Name:</label>        
+                    <input type="text" class="form-control" form="profile_edit" name="first_name" id="inputFName" value="{{status.user.first_name}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="isnputMName" class="col-lg-12 col-form-label">Middle Name:</label>
+                    <input type="text" class="form-control" form="profile_edit" name="middle_name" id="inputMName" value="{{status.user.middle_name}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="inputLName" class="col-lg-12 col-form-label">Last Name:</label>
+                    <input type="text" class="form-control" form="profile_edit" name="last_name" id="inputLName" value="{{status.user.last_name}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12  col-md-6 col-lg-4">
+                    <label for="isnputEmail" class="col-sm-12 col-form-label">Email:</label>
+                    <input type="text" class="form-control" form="profile_edit" name="email" id="inputName" value="{{status.user.email}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="isnputPhone" class="col-sm-12 col-form-label">Phone Number:</label>
+                    <input type="text" class="form-control" form="profile_edit" name="phone_number" id="inputPhone" value="{{status.user.phone_number}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="isnputCompany" class="col-sm-12 col-form-label">Company Name:</label>
+                    <input type="text" class="form-control" form="profile_edit" name="company_name" id="inputCompany" value="{{status.user.company_name}}" :disabled="edit_disable" placeholder="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="isnputGst" class="col-sm-12 col-form-label">GST Number (If Apllicable):</label>
+                    <input type="text" class="form-control" form="profile_edit" name="gst_number" id="inputGst" value="{{status.user.gst_number}}" :disabled="edit_disable" placeholder="">
+                </div> 
+            </div> 
+            <div class="row mt-3 mr-1 float-right">
+                <button v-if="!edit_disable" v-on:click="edit_cancle" type="button" class="btn btn-warning float-right mx-1">Cancle</button>
+                <form id="profile_edit" method="POST">
+                    {% csrf_token %}
+                    <button v-if="!edit_disable"  type="submit" class="btn btn-success float-right mx-1">Update</button>
+                </form>
+            </div>
+        </div>   
+    </div>
+</div>
+<script>
+    var profile=new Vue({
+    el: '#dash-profile',
+    data:{
+        edit_disable:true
+    },
+    methods:{
+        edit_profile:function(){
+            this.edit_disable=false;
+
+        },
+        edit_cancle:function(){
+            this.edit_disable=true;
+            
+        }
+    }
+    
+})
+</script>
+{% endblock account_content %}
