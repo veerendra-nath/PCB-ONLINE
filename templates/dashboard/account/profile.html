@@ -5,69 +5,68 @@
     <div class="row">
         <div class="col-lg-12 float-left">
             <h4 class="d-inline mt-1  ml-2 float-left ">Profile</h4>
-            <button v-if="edit_disable" v-on:click="edit_profile" type="button" class="btn d-inline btn-default float-right mx-1">Edit</button> 
+            <div id="editProfileButton">
+            <button  onclick="edit_profile()" type="button" class="btn d-inline btn-default float-right mx-1">Edit</button>
+            </div>
         </div>
     </div>
     <hr class="mt-2">
     <div class="row">
         <div class="col-lg-12 ">
-            <div class="row">
+            <form class="row" id="profile_edit" method="POST">
+                {% csrf_token %}
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputFName" class="col-lg-12 col-form-label">First Name:</label>        
-                    <input type="text" class="form-control" form="profile_edit" name="first_name" id="inputFName" value="{{status.user.first_name}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="first_name" id="inputFName" value="{{status.user.first_name}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="isnputMName" class="col-lg-12 col-form-label">Middle Name:</label>
-                    <input type="text" class="form-control" form="profile_edit" name="middle_name" id="inputMName" value="{{status.user.middle_name}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="middle_name" id="inputMName" value="{{status.user.middle_name}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputLName" class="col-lg-12 col-form-label">Last Name:</label>
-                    <input type="text" class="form-control" form="profile_edit" name="last_name" id="inputLName" value="{{status.user.last_name}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="last_name" id="inputLName" value="{{status.user.last_name}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12  col-md-6 col-lg-4">
                     <label for="isnputEmail" class="col-sm-12 col-form-label">Email:</label>
-                    <input type="text" class="form-control" form="profile_edit" name="email" id="inputName" value="{{status.user.email}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="email" id="inputName" value="{{status.user.email}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="isnputPhone" class="col-sm-12 col-form-label">Phone Number:</label>
-                    <input type="text" class="form-control" form="profile_edit" name="phone_number" id="inputPhone" value="{{status.user.phone_number}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="phone_number" id="inputPhone" value="{{status.user.phone_number}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="isnputCompany" class="col-sm-12 col-form-label">Company Name:</label>
-                    <input type="text" class="form-control" form="profile_edit" name="company_name" id="inputCompany" value="{{status.user.company_name}}" :disabled="edit_disable" placeholder="">
+                    <input type="text" class="form-control"  name="company_name" id="inputCompany" value="{{status.user.company_name}}" :disabled="edit_disable" placeholder="">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="isnputGst" class="col-sm-12 col-form-label">GST Number (If Apllicable):</label>
-                    <input type="text" class="form-control" form="profile_edit" name="gst_number" id="inputGst" value="{{status.user.gst_number}}" :disabled="edit_disable" placeholder="">
-                </div> 
-            </div> 
-            <div class="row mt-3 mr-1 float-right">
-                <button v-if="!edit_disable" v-on:click="edit_cancle" type="button" class="btn btn-warning float-right mx-1">Cancle</button>
-                <form id="profile_edit" method="POST">
-                    {% csrf_token %}
-                    <button v-if="!edit_disable"  type="submit" class="btn btn-success float-right mx-1">Update</button>
-                </form>
+                    <input type="text" class="form-control"  name="gst_number" id="inputGst" value="{{status.user.gst_number}}" :disabled="edit_disable" placeholder="">
+                </div>
+            </form>
+            <div id="editFooter" class="row mt-3 mr-1 float-right" style="display: none;">
+                <button  onclick="edit_cancle()" type="button" class="btn btn-warning float-right mx-1">Cancle</button>
+
+                <button   type="submit" form="profile_edit" class="btn btn-success float-right mx-1">Update</button>
             </div>
-        </div>   
+        </div>
     </div>
 </div>
 <script>
-    var profile=new Vue({
-    el: '#dash-profile',
-    data:{
-        edit_disable:true
-    },
-    methods:{
-        edit_profile:function(){
-            this.edit_disable=false;
+$("#profile_edit :input").prop("disabled", true);
+function edit_profile()
+{
+ $('#editProfileButton').hide()
+ $('#editFooter').show()
+ $("#profile_edit :input").prop("disabled", false);
+}
+function edit_cancle()
+{
+$('#editProfileButton').show()
+    $('#editFooter').hide()
+    $("#profile_edit :input").prop("disabled", true);
 
-        },
-        edit_cancle:function(){
-            this.edit_disable=true;
-            
-        }
-    }
-    
-})
+
+}
 </script>
 {% endblock account_content %}

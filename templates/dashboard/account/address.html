@@ -5,42 +5,41 @@
     <div class="row">
         <div class="col-lg-12 float-left">
             <h4 class="d-inline mt-1  ml-2 float-left">Addresses</h4>
-            <button v-if="!addnew" v-on:click="addaddress" type="button" class="btn  float-right btn-default">Add New address</button>   
+            <button  type="button" onclick="fun_addr('','add')" class="btn  float-right btn-default">Add New address</button>
         </div>
     </div>
     <hr class="mt-2">
-    <div v-if= "!addnew && !edit" class="row">
+    <div id="addressesView"  class="row">
         {% for address in status.address_objects %} 
             <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mx-auto">
-                {% if address.id == status.user.default_address.id %}  
-                <div id="{{address.id}}" ref="{{address.id}}" class="card shadow border-success">
-                {% else %}
-                <div id="{{address.id}}" ref="{{address.id}}" class="card shadow border-danger">
-                {% endif %}
-                    <div id="addheader" class="card-header bg-gradient-warning border-0"> 
-                        <h4 id="nick_name" class="d-inline color text-gray-dark text-capitalize">{{address.nick_name}}</h4>
-                        {% if address.id != status.user.default_address.id %}  
+                <div id="{{address.id}}" ref="{{address.id}}" class="card shadow {% if address.id == status.user.default_address.id %} border-success {% else %} border-warning {% endif %}">
+
+                    <div id="addrheader" class="card-header bg-gradient-warning border-0">
+                        <h4 id="{{ address.id }}_nn" class="d-inline color text-gray-dark text-capitalize">{{ address.nick_name }}</h4>
+                        {% if address.id != status.user.default_address.id %}
                             <form method="POST" class="d-inline">
-                                    {% csrf_token %} 
-                                <input type="hidden" name="add_id"  value="{{address.id}}"> 
-                                <input type="hidden" name="cmd" value="mk_default">         
+                                {% csrf_token %}
+                                <input type="hidden" name="add_id"  value="{{address.id}}">
+                                <input type="hidden" name="cmd" value="mk_default">
                                 <button  type="submit" class="btn d-inline btn-default float-right ">Make Default</button>
-                            </form>    
+                            </form>
+                         {% else %}
+                            <span class="btn d-inline btn-success float-right ">Default</span>
                         {% endif %}
                     </div>
-                    <div id="addbox" class="card-body" >                  
-                        <p id="cpn" ref="cpn" class="card-text mt--2 ">{{address.contact_person_name}}</p>
-                        <p id="cn" ref="cn" class="card-text mt--3 ">{{address.comapny_name}}</p>
-                        <p id="l1" class="card-text mt--3 ">{{address.address_line1}}</p>
-                        <p id="l2" class="card-text mt--3 ">{{address.address_line2}}</p>
-                        <p id="city" class="card-text mt--3 ">{{address.city}}</p>
-                        <p id="state" class="card-text mt--3 ">{{address.state}}</p> 
-                        <p id="pin" class="card-text mt--3 ">{{address.pincode}}</p> 
-                        <p id="phone" class="card-text mt--3 ">{{address.mobile_number}}</p> 
-                        <p id="landmark" class="card-text mt--3 ">{{address.land_mark}}</p>
-                        <button v-on:click="edit_add({{address.id}})" href="#" class="btn d-inline btn-primary">Edit</button>
+                    <div id="addrbox" class="card-body" >
+                        <p id="{{ address.id }}_cpn" ref="cpn" class="card-text mt--2 ">{{address.contact_person_name}}</p>
+                        <p id="{{ address.id }}_cn" ref="cn" class="card-text mt--3 ">{{address.comapny_name}}</p>
+                        <p id="{{ address.id }}_l1" class="card-text mt--3 ">{{address.address_line1}}</p>
+                        <p id="{{ address.id }}_l2" class="card-text mt--3 ">{{address.address_line2}}</p>
+                        <p id="{{ address.id }}_city" class="card-text mt--3 ">{{address.city}}</p>
+                        <p id="{{ address.id }}_state" class="card-text mt--3 ">{{address.state}}</p>
+                        <p id="{{ address.id }}_pin" class="card-text mt--3 ">{{address.pincode}}</p>
+                        <p id="{{ address.id }}_phone" class="card-text mt--3 ">{{address.mobile_number}}</p>
+                        <p id="{{ address.id }}_landmark" class="card-text mt--3 ">{{address.land_mark}}</p>
+                        <button type="button" onclick="fun_addr({{ address.id }},'edit')" href="#" class="btn d-inline btn-primary">Edit</button>
                         <form class="d-inline" method="POST">
-                            {% csrf_token %} 
+                            {% csrf_token %}
                             <input type="hidden" name="cmd" value="del">
                             <input id="address_id" type="hidden" name="add_id" value="{{address.id}}">
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -50,135 +49,108 @@
             </div>
         {% endfor %}
     </div>
-    <div v-if="addnew||edit" class="row">
+    <div id="adddressFrom" class="row" style="display:none" >
         <div class="col-lg-12 ">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputNickadd" class="col-lg-12 col-form-label">Nick Name:(Ex:Home,Office):</label>        
-                    <input type="text" class="form-control" form="addaddress" name="nick_name" id="inputNickadd"  v-model="nick_name" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="nick_name" id="inputNickaddr"   >
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputContactadd" class="col-lg-12 col-form-label">Contact Person:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="person_name" id="inputContactadd" v-model="contact" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="person_name" id="inputContactaddr"  required>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputCompanyadd" class="col-lg-12 col-form-label">Comapny Name:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="company_name" id="inputCompanyadd"  v-model="comapny" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="company_name" id="inputCompanyaddr"   >
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputL1add" class="col-lg-12 col-form-label">Address Line 1:</label>        
-                    <textarea type="text" class="form-control" form="addaddress" name="add_line1" id="inputL1add"  v-model="line1" placeholder=""></textarea>
+                    <textarea type="text" class="form-control" form="addaddress" name="add_line1" id="inputL1addr"   required ></textarea>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputL2add" class="col-lg-12 col-form-label">Address Line 2:</label>        
-                    <textarea type="text" class="form-control" form="addaddress" name="add_line2" id="inputL2add"  v-model="line2" placeholder=""></textarea>
+                    <textarea type="text" class="form-control" form="addaddress" name="add_line2" id="inputL2addr"   ></textarea>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputCityadd" class="col-lg-12 col-form-label">City:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="city" id="inputCityadd"  v-model="city" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="city" id="inputCityaddr"   required >
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputStateadd" class="col-lg-12 col-form-label">State:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="state" id="inputStateadd"  v-model="state" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="state" id="inputStateaddr"   required>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputPinadd" class="col-lg-12 col-form-label">Pincode:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="pincode" id="inputPinadd"  v-model="pin" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="pincode" id="inputPinaddr"  required>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputPhoneadd" class="col-lg-12 col-form-label">Phone Number:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="phone_number" id="inputPhoneadd"  v-model="phone" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="phone_number" id="inputPhoneaddr"   required>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputLmadd" class="col-lg-12 col-form-label">Land Mark/More:</label>        
-                    <input type="text" class="form-control" form="addaddress" name="land_mark" id="inputLmadd"  v-model="landmark" placeholder="">
+                    <input type="text" class="form-control" form="addaddress" name="land_mark" id="inputLmaddr"   >
                 </div>
             </div> 
             <div class="row mt-3 mr-1 float-right">
-                <button v-if="addnew || edit" v-on:click="cancle_addaddress" type="button" class="btn btn-warning float-right mx-1">Cancle</button>    
+                <button  onclick="cancleAddrForm()" type="button" class="btn btn-warning float-right mx-1">Cancle</button>
                 <form id="addaddress"  method="POST">
                     {% csrf_token %} 
-                    <input v-if="addnew" type="hidden" name="cmd" value="new">
-                    <input v-if="edit" type="hidden" name="cmd" value="edit">
-                    <input type="hidden" name="add_id" v-model="add_id" value="{{address.id}}">
-                    <button v-if="addnew"  type="submit" class="btn bg-green float-right mx-1">Save</button>
-                    <button v-if="edit"  type="submit" class="btn bg-green float-right mx-1">Update</button>
+                    <input id="inputFormType" type="hidden" name="cmd" >
+                    <input id="inputFormAddrID" type="hidden" name="add_id"  >
+                    <button id="inputFormButton" type="submit" class="btn bg-green float-right mx-1"></button>
                 </form>
             </div>
         </div> 
     </div>
 </div>
-<script>
-var address=new Vue({
-    el: '#address',
-    data:{
-        addnew:false,
-        edit:false,
-        nick_name:'',
-        contact:'',
-        comapny:'',
-        line1:'',
-        line2:'',
-        city:'',
-        state:'',
-        pin:'',
-        phone:'',
-        landmark:'',
-        add_id:'',
-        default_contact:'{{status.user}}',
-        default_phone:'{{status.user.phone_number}}',
-        default_company:'{{status.user.company_name}}',
-    },
-    methods:{
-        addaddress:function(){
-            this.addnew=true;
-            this.edit=false;
-            this.contact=this.default_contact;
-            this.comapny=this.default_company;
-            this.phone=this.default_phone;
 
-        },
-        cancle_addaddress:function(){
-            this.nick_name="";
-            this.contact="";
-            this.comapny="";
-            this.line1="";
-            this.line2="";
-            this.city="";
-            this.state="";
-            this.pin="";
-            this.phone="";
-            this.landmark="";
-            this.add_id="";
-            this.addnew=false;
-            this.edit=false;
 
-        },
-        edit_add:function(addid)
-            {
-                de=document.getElementById(addid);
-                header=de.querySelector("#addheader");
-                box=de.querySelector("#addbox");
-                this.nick_name=header.querySelector("#nick_name").innerHTML;
-                this.contact=box.querySelector("#cpn").innerHTML;
-                this.comapny=box.querySelector("#cn").innerHTML;
-                this.line1=box.querySelector("#l1").innerHTML;
-                this.line2=box.querySelector("#l2").innerHTML;
-                this.city=box.querySelector("#city").innerHTML;
-                this.state=box.querySelector("#state").innerHTML;
-                this.pin=box.querySelector("#pin").innerHTML;
-                this.phone=box.querySelector("#phone").innerHTML;
-                this.landmark=box.querySelector("#landmark").innerHTML;
-                this.add_id=box.querySelector("#address_id").value;
-                this.addnew=false;
-                this.edit=true;
-                console.log(header)
+ <script>
+    function fun_addr(addrId,cmd) {
+      if(cmd==='edit') {
 
-            }
-        ,
+          $('#inputNickaddr').val($(`#${addrId}_nn`).text())
+          $('#inputContactaddr').val($(`#${addrId}_cpn`).text())
+          $('#inputCompanyaddr').val($(`#${addrId}_cn`).text())
+          $('#inputL1addr').val($(`#${addrId}_l1`).text())
+          $('#inputL2addr').val($(`#${addrId}_l2`).text())
+          $('#inputCityaddr').val($(`#${addrId}_city`).text())
+          $('#inputStateaddr').val($(`#${addrId}_state`).text())
+          $('#inputPinaddr').val($(`#${addrId}_pin`).text())
+          $('#inputPhoneaddr').val($(`#${addrId}_phone`).text())
+          $('#inputLmaddr').val($(`#${addrId}_landmark`).text())
+          $('#inputFormType').val('edit')
+          $('#inputFormAddrID').val(addrId)
+          $('#inputFormButton').text('Update')
+      }
+      if(cmd==='add')
+      {
+          $('#inputNickaddr').val('')
+          $('#inputContactaddr').val('{{status.user}}')
+          $('#inputCompanyaddr').val('{{status.user.company_name}}')
+          $('#inputL1addr').val('')
+          $('#inputL2addr').val('')
+          $('#inputCityaddr').val('')
+          $('#inputStateaddr').val('')
+          $('#inputPinaddr').val('')
+          $('#inputPhoneaddr').val('')
+          $('#inputLmaddr').val('')
+          $('#inputFormType').val('new')
+          $('#inputFormButton').text('Add')
+      }
+
+        $('#addressesView').hide()
+        $('#adddressFrom').show()
+
     }
-    
-})
+    function cancleAddrForm()
+    {
+        $('#addressesView').show()
+        $('#adddressFrom').hide()
+    }
+
 /*var account_nav=new Vue({
     el:'#account_nav',
     methods:{
