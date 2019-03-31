@@ -46,7 +46,6 @@
             </form>
             <div id="editFooter" class="row mt-3 mr-1 float-right" style="display: none;">
                 <button  onclick="edit_cancle()" type="button" class="btn btn-warning float-right mx-1">Cancle</button>
-
                 <button   type="submit" form="profile_edit" class="btn btn-success float-right mx-1">Update</button>
             </div>
         </div>
@@ -56,13 +55,13 @@
 $("#profile_edit :input").prop("disabled", true);
 function edit_profile()
 {
- $('#editProfileButton').hide()
- $('#editFooter').show()
- $("#profile_edit :input").prop("disabled", false);
+    $('#editProfileButton').hide()
+    $('#editFooter').show()
+    $("#profile_edit :input").prop("disabled", false);
 }
 function edit_cancle()
 {
-$('#editProfileButton').show()
+    $('#editProfileButton').show()
     $('#editFooter').hide()
     $("#profile_edit :input").prop("disabled", true);
 

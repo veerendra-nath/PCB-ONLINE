@@ -8,14 +8,14 @@ from django.core.validators import *
 # Create your models here.
 class Addresses(models.Model):
     nick_name = models.CharField(max_length=50, null=True)
-    contact_person_name = models.CharField(max_length=50, null=False)
+    contact_person_name = models.CharField(max_length=50, null=False, blank=False)
     company_name = models.CharField(max_length=50, null=True)
-    address_line1 = models.CharField(max_length=130, null=False)
+    address_line1 = models.CharField(max_length=130, null=False, blank=False)
     address_line2 = models.CharField(max_length=120, null=True)
-    city = models.CharField(max_length=120, null=True)
-    state = models.CharField(max_length=120, null=True)
-    pincode = models.CharField(max_length=20, null=False)
-    mobile_number = models.CharField(max_length=20, null=False, default="")
+    city = models.CharField(max_length=120, null=True, blank=False)
+    state = models.CharField(max_length=120, null=True, blank=False)
+    pincode = models.CharField(max_length=20, null=False, blank=False)
+    mobile_number = models.CharField(max_length=20, null=False, blank=False)
     land_mark = models.CharField(max_length=20, null=False, default="")
 
     # uid=models.ForeignKey(User,on_delete=models.CASCADE)
