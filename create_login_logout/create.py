@@ -14,7 +14,7 @@ def create_user_response(request=None, redir=None):
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.middle_name = request.POST.get('middle_name')
-        user.email = request.POST.get('email')
+        user.email = request.POST.get('email').lower()
         user.company_name = request.POST.get('company')
         user.gst_number = request.POST.get('gst')
         user.password = request.POST.get('password')
@@ -37,7 +37,7 @@ def create_user_response(request=None, redir=None):
                 response = redirect(redir)
             else:
                 response = redirect('dashboard_account', sub_path='profile')
-            v = email_verify(type='verification')
+            v = email_verify(type='verification',user=user)
             session_string = session_create(user=user, request=request)
             response.set_cookie(key="YOJAKA", value=session_string, max_age=None)
             return response

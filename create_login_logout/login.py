@@ -9,7 +9,7 @@ from .session import *
 def login_user_response(request=None, redir=None):
     if request.method == 'POST':
         try:
-            user = User.objects.get(email=request.POST.get('email'))
+            user = User.objects.get(email=request.POST.get('email').lower())
             if pbkdf2_sha256.verify(request.POST.get('password'), user.password):
                 if redir:
                     print(redir)
