@@ -1,7 +1,7 @@
 {% extends '../dashboard.html' %}
 {% block content %}
 {% load static %}
-<div class="main-content">    
+<div class="main-content ">
 
     <div class="header bg-gradient-cus pb-2 pt-2 pt-md-2 "  >
         <div class="container-fluid nav-wrapper">
@@ -13,14 +13,14 @@
         </div>
     </div>
 
-    <div class="container mt--2 " >
+
         
-        <div class="row " style="box-shadow: 5px 10px 10px gray;">             
+        <div class="row mx-auto " style="box-shadow:  5px 10px 10px gray;">
                 {% block account_content %}
                   
                 {% endblock account_content %}
 
         </div>
-    </div>
+
 </div>
 {% endblock content %}
